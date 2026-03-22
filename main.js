@@ -3,7 +3,7 @@ let todos = [];
 let token = localStorage.getItem('token');
 let currentUser = localStorage.getItem('username');
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 // DOM Elements - Auth
 const authOverlay = document.getElementById('auth-overlay');
