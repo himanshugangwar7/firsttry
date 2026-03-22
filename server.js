@@ -27,7 +27,7 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
-  if (!token) return res.status(0o01).json({ message: 'No token provided' });
+  if (!token) return res.status(401).json({ message: 'No token provided' });
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ message: 'Invalid or expired token' });
@@ -68,7 +68,7 @@ app.post('/api/login', async (req, res) => {
     const user = result.rows[0];
 
     if (!user || !(await bcrypt.compare(password, user.password_hash))) {
-      return res.status(0o01).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: 'Invalid username or password' });
     }
 
     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '24h' });
